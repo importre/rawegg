@@ -2,7 +2,9 @@
 const app = require('app');
 const BrowserWindow = require('browser-window');
 const Menu = require('menu')
-const template = require('./menu')
+const template = require('./electron/menu')
+
+require('./electron/core')
 
 // report crashes to the Electron project
 require('crash-reporter').start();
@@ -21,12 +23,14 @@ function onClosed() {
 }
 
 function createMainWindow() {
-	const win = new BrowserWindow({
-		width: 800,
-		height: 600
-	});
+	const is2nd = process.argv.indexOf('--2nd') >= 0;
+	var opts = { width: 800, height: 600 };
+	if (is2nd) {
+		setOptsForDualScreen(opts);
+	}
 
-	console.log(process.env);
+	const win = new BrowserWindow(opts);
+
 	if (process.env.DEV) {
 		win.loadUrl('http://localhost:8000/dev.html');
 	} else {
@@ -40,6 +44,16 @@ function createMainWindow() {
 	}
 
 	return win;
+}
+
+function setOptsForDualScreen(opts) {
+  var atomScreen = require('screen');
+  var displays = atomScreen.getAllDisplays();
+  var d2 = displays.length > 1 ? displays[1] : null;
+  if (d2) {
+    opts.x = d2.bounds.x + (d2.size.width - opts.width) / 2;
+    opts.y = d2.bounds.y + (d2.size.height - opts.height) / 2;
+  }
 }
 
 app.on('window-all-closed', () => {
