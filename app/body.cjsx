@@ -1,6 +1,7 @@
 React = require 'react'
 ReactDom = require 'react-dom'
 {
+  Glyphicon
   Table
 } = require 'react-bootstrap'
 
@@ -29,8 +30,9 @@ module.exports = React.createClass
   render: ->
     self = this
     files = @state.currentFiles.map (file, i) =>
+      fileIcon = if file.dir then 'folder-close' else 'file'
       <tr onClick={self.onClickFile.bind(self, i)} key={i}>
-        <td>{file.path}</td>
+        <td><Glyphicon glyph={fileIcon} /> {file.path}</td>
         <td>{file.mtime + ''}</td>
       </tr>
 

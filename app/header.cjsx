@@ -3,6 +3,7 @@ ReactDom = require 'react-dom'
 {
   Col, CollapsibleNav
   ButtonToolbar, ButtonGroup, Button
+  Glyphicon
   Input
   Nav, Navbar, NavBrand, NavItem,
 } = require 'react-bootstrap'
@@ -15,15 +16,15 @@ window.ReactDom = ReactDom
 
 module.exports = React.createClass
   render: ->
-      searchButton = <Button>search</Button>
+      searchButton = <Button><Glyphicon glyph="search" /></Button>
 
       <Navbar inverse fixedTop={yes} toggleNavKey={0}>
         <CollapsibleNav eventKey={0}>
           <Nav navbar>
             <ButtonToolbar className="navbar-form">
               <ButtonGroup>
-                <Button>&lt;</Button>
-                <Button>&gt;</Button>
+                <Button><Glyphicon glyph="chevron-left" /></Button>
+                <Button><Glyphicon glyph="chevron-right" /></Button>
               </ButtonGroup>
             </ButtonToolbar>
           </Nav>
